@@ -30,9 +30,9 @@ public class WXPay {
     public static void main(String[] args) throws Exception {
 
         // 生成二维码，完成支付
-        // unifiedOrder();
+        unifiedOrder();
         // 商家扫用户手机的条形码
-        scanCodeToPay("");
+        //scanCodeToPay("");
 
     }
 
@@ -61,7 +61,7 @@ public class WXPay {
         map.put("nonce_str", WXPayUtil.generateNonceStr());
         map.put("out_trade_no", out_trade_no);
         map.put("spbill_create_ip", spbill_create_ip);
-        map.put("total_fee", "1000");
+        map.put("total_fee", "1");
         //生成签名
         String sign = WXPayUtil.generateSignature(map, config.getKey());
         map.put("sign", sign);
@@ -157,9 +157,9 @@ public class WXPay {
         }
         String spbill_create_ip = addr.getHostAddress();
         //支付金额，需要转成字符串类型，否则后面的签名会失败
-        int total_fee = 1800;//100分：1块钱
+        int total_fee = 1;//100分：1块钱
         //商品描述
-        String body = "路由器";
+        String body = "test";
         //商户订单号
         String out_trade_no = WXPayUtil.generateNonceStr();
         //统一下单接口参数
@@ -169,12 +169,14 @@ public class WXPay {
         data.put("mch_id", "1623889015");
         // 回调接口，必须是一个域名，不能使用IP
         // 腾讯会自动调用你（程序自己提供的接口）的接口，给你发送支付结果的数据，数据格式：xml格式
-        data.put("notify_url", "http://419276x8r3.qicp.vip/result");
+        data.put("notify_url", "http://4774k86o55.zicp.fun/result");
         data.put("out_trade_no", out_trade_no);//交易号
         data.put("spbill_create_ip", spbill_create_ip);//下单的电脑IP地址
         data.put("trade_type", "NATIVE");//支付类型
         data.put("total_fee", String.valueOf(total_fee));
-        data.put("openid", openid);
+        String p="id,11112;price,0.01;amount,1;";
+        data.put("attach",p);
+        //data.put("openid", openid);
 
         try {
             Map<String, String> rMap = wxpay.unifiedOrder(data);
@@ -187,7 +189,7 @@ public class WXPay {
 
     public static void createQRCode(Map<String, String> map) throws Exception {
 
-        File outputFile = new File("/Users/liwei/" + File.separator + "new.jpg");
+        File outputFile = new File("/Users/123/" + File.separator + "new.jpg");
         FileOutputStream fileOutputStream = new FileOutputStream(outputFile);
         String url = map.get("code_url");
         System.out.println("生成二维码的url：" + url);
